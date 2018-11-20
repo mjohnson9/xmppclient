@@ -1,0 +1,580 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4CCD17E321A4BF38001D3D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */; };
+		4CCD17E521A4BF38001D3D29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E421A4BF38001D3D29 /* ViewController.swift */; };
+		4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17E621A4BF38001D3D29 /* Main.storyboard */; };
+		4CCD17EB21A4BF38001D3D29 /* xmppclient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E921A4BF38001D3D29 /* xmppclient.xcdatamodeld */; };
+		4CCD17ED21A4BF38001D3D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */; };
+		4CCD17F021A4BF38001D3D29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */; };
+		4CCD17FB21A4BF38001D3D29 /* xmppclientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17FA21A4BF38001D3D29 /* xmppclientTests.swift */; };
+		4CCD180621A4BF38001D3D29 /* xmppclientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4CCD17F721A4BF38001D3D29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CCD17D721A4BF38001D3D29 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CCD17DE21A4BF38001D3D29;
+			remoteInfo = xmppclient;
+		};
+		4CCD180221A4BF38001D3D29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CCD17D721A4BF38001D3D29 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CCD17DE21A4BF38001D3D29;
+			remoteInfo = xmppclient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4CCD17DF21A4BF38001D3D29 /* xmppclient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmppclient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4CCD17E421A4BF38001D3D29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4CCD17E721A4BF38001D3D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4CCD17EA21A4BF38001D3D29 /* xmppclient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xmppclient.xcdatamodel; sourceTree = "<group>"; };
+		4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4CCD17EF21A4BF38001D3D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4CCD17F121A4BF38001D3D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CCD17F621A4BF38001D3D29 /* xmppclientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppclientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCD17FA21A4BF38001D3D29 /* xmppclientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xmppclientTests.swift; sourceTree = "<group>"; };
+		4CCD17FC21A4BF38001D3D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CCD180121A4BF38001D3D29 /* xmppclientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppclientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xmppclientUITests.swift; sourceTree = "<group>"; };
+		4CCD180721A4BF38001D3D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4CCD17DC21A4BF38001D3D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17F321A4BF38001D3D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17FE21A4BF38001D3D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4CCD17D621A4BF38001D3D29 = {
+			isa = PBXGroup;
+			children = (
+				4CCD17E121A4BF38001D3D29 /* xmppclient */,
+				4CCD17F921A4BF38001D3D29 /* xmppclientTests */,
+				4CCD180421A4BF38001D3D29 /* xmppclientUITests */,
+				4CCD17E021A4BF38001D3D29 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4CCD17E021A4BF38001D3D29 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4CCD17DF21A4BF38001D3D29 /* xmppclient.app */,
+				4CCD17F621A4BF38001D3D29 /* xmppclientTests.xctest */,
+				4CCD180121A4BF38001D3D29 /* xmppclientUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4CCD17E121A4BF38001D3D29 /* xmppclient */ = {
+			isa = PBXGroup;
+			children = (
+				4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */,
+				4CCD17E421A4BF38001D3D29 /* ViewController.swift */,
+				4CCD17E621A4BF38001D3D29 /* Main.storyboard */,
+				4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */,
+				4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */,
+				4CCD17F121A4BF38001D3D29 /* Info.plist */,
+				4CCD17E921A4BF38001D3D29 /* xmppclient.xcdatamodeld */,
+			);
+			path = xmppclient;
+			sourceTree = "<group>";
+		};
+		4CCD17F921A4BF38001D3D29 /* xmppclientTests */ = {
+			isa = PBXGroup;
+			children = (
+				4CCD17FA21A4BF38001D3D29 /* xmppclientTests.swift */,
+				4CCD17FC21A4BF38001D3D29 /* Info.plist */,
+			);
+			path = xmppclientTests;
+			sourceTree = "<group>";
+		};
+		4CCD180421A4BF38001D3D29 /* xmppclientUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */,
+				4CCD180721A4BF38001D3D29 /* Info.plist */,
+			);
+			path = xmppclientUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4CCD17DE21A4BF38001D3D29 /* xmppclient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CCD180A21A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclient" */;
+			buildPhases = (
+				4CCD17DB21A4BF38001D3D29 /* Sources */,
+				4CCD17DC21A4BF38001D3D29 /* Frameworks */,
+				4CCD17DD21A4BF38001D3D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = xmppclient;
+			productName = xmppclient;
+			productReference = 4CCD17DF21A4BF38001D3D29 /* xmppclient.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4CCD17F521A4BF38001D3D29 /* xmppclientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CCD180D21A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclientTests" */;
+			buildPhases = (
+				4CCD17F221A4BF38001D3D29 /* Sources */,
+				4CCD17F321A4BF38001D3D29 /* Frameworks */,
+				4CCD17F421A4BF38001D3D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CCD17F821A4BF38001D3D29 /* PBXTargetDependency */,
+			);
+			name = xmppclientTests;
+			productName = xmppclientTests;
+			productReference = 4CCD17F621A4BF38001D3D29 /* xmppclientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4CCD180021A4BF38001D3D29 /* xmppclientUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CCD181021A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclientUITests" */;
+			buildPhases = (
+				4CCD17FD21A4BF38001D3D29 /* Sources */,
+				4CCD17FE21A4BF38001D3D29 /* Frameworks */,
+				4CCD17FF21A4BF38001D3D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CCD180321A4BF38001D3D29 /* PBXTargetDependency */,
+			);
+			name = xmppclientUITests;
+			productName = xmppclientUITests;
+			productReference = 4CCD180121A4BF38001D3D29 /* xmppclientUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4CCD17D721A4BF38001D3D29 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = "Michael Johnson";
+				TargetAttributes = {
+					4CCD17DE21A4BF38001D3D29 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					4CCD17F521A4BF38001D3D29 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 4CCD17DE21A4BF38001D3D29;
+					};
+					4CCD180021A4BF38001D3D29 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 4CCD17DE21A4BF38001D3D29;
+					};
+				};
+			};
+			buildConfigurationList = 4CCD17DA21A4BF38001D3D29 /* Build configuration list for PBXProject "xmppclient" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4CCD17D621A4BF38001D3D29;
+			productRefGroup = 4CCD17E021A4BF38001D3D29 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4CCD17DE21A4BF38001D3D29 /* xmppclient */,
+				4CCD17F521A4BF38001D3D29 /* xmppclientTests */,
+				4CCD180021A4BF38001D3D29 /* xmppclientUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4CCD17DD21A4BF38001D3D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CCD17F021A4BF38001D3D29 /* LaunchScreen.storyboard in Resources */,
+				4CCD17ED21A4BF38001D3D29 /* Assets.xcassets in Resources */,
+				4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17F421A4BF38001D3D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17FF21A4BF38001D3D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4CCD17DB21A4BF38001D3D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CCD17EB21A4BF38001D3D29 /* xmppclient.xcdatamodeld in Sources */,
+				4CCD17E521A4BF38001D3D29 /* ViewController.swift in Sources */,
+				4CCD17E321A4BF38001D3D29 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17F221A4BF38001D3D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CCD17FB21A4BF38001D3D29 /* xmppclientTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CCD17FD21A4BF38001D3D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CCD180621A4BF38001D3D29 /* xmppclientUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CCD17F821A4BF38001D3D29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CCD17DE21A4BF38001D3D29 /* xmppclient */;
+			targetProxy = 4CCD17F721A4BF38001D3D29 /* PBXContainerItemProxy */;
+		};
+		4CCD180321A4BF38001D3D29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CCD17DE21A4BF38001D3D29 /* xmppclient */;
+			targetProxy = 4CCD180221A4BF38001D3D29 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4CCD17E621A4BF38001D3D29 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CCD17E721A4BF38001D3D29 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CCD17EF21A4BF38001D3D29 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4CCD180821A4BF38001D3D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4CCD180921A4BF38001D3D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4CCD180B21A4BF38001D3D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclient/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4CCD180C21A4BF38001D3D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclient/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4CCD180E21A4BF38001D3D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclientTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xmppclient.app/xmppclient";
+			};
+			name = Debug;
+		};
+		4CCD180F21A4BF38001D3D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclientTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xmppclient.app/xmppclient";
+			};
+			name = Release;
+		};
+		4CCD181121A4BF38001D3D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclientUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclientUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = xmppclient;
+			};
+			name = Debug;
+		};
+		4CCD181221A4BF38001D3D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WW5885E694;
+				INFOPLIST_FILE = xmppclientUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclientUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = xmppclient;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4CCD17DA21A4BF38001D3D29 /* Build configuration list for PBXProject "xmppclient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CCD180821A4BF38001D3D29 /* Debug */,
+				4CCD180921A4BF38001D3D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CCD180A21A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CCD180B21A4BF38001D3D29 /* Debug */,
+				4CCD180C21A4BF38001D3D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CCD180D21A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CCD180E21A4BF38001D3D29 /* Debug */,
+				4CCD180F21A4BF38001D3D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CCD181021A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclientUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CCD181121A4BF38001D3D29 /* Debug */,
+				4CCD181221A4BF38001D3D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4CCD17E921A4BF38001D3D29 /* xmppclient.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4CCD17EA21A4BF38001D3D29 /* xmppclient.xcdatamodel */,
+			);
+			currentVersion = 4CCD17EA21A4BF38001D3D29 /* xmppclient.xcdatamodel */;
+			path = xmppclient.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 4CCD17D721A4BF38001D3D29 /* Project object */;
+}
