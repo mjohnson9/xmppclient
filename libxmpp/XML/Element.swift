@@ -8,17 +8,33 @@
 
 import Foundation
 
+/// An XML element
 class Element: NSObject {
+    /// The namespace prefix of the element
     var prefix: String = ""
+    /// The element's tag
     var tag: String = ""
+    /// The namespace that the element resolved to.
+    /// This is not needed for creating elements, it's only used by the parser.
     var resolvedNamespace: String!
+    /// The default namespace of the element (corresponds to XML's xmlns)
     var defaultNamespace: String!
+    /// The prefixed namespaces of the element (corresponds to XML's xmlns:key=value)
     var prefixedNamespaces: Dictionary<String, String> = [:]
+    /// The element's parent element. Root elements will have a nil parent.
     var parent: Element!
+    /// The element's XML attributes
+    ///
+    /// For xmlns and xmlns:key, see defaultNamespace and prefixedNamespaces respectively.
     var attributes: Dictionary<String, String> = [:]
+    /// The child elements of this element, in order.
     var children: [Element] = []
+    /// The text node of this element
     var contents: String!
     
+    /// Serializes an Element and its children into a valid XML string
+    ///
+    /// - Returns: An XML string representing the Element
     public func serialize() -> String {
         let returnString: NSMutableString = "<"
         if(self.prefix.count > 0) {
@@ -67,6 +83,10 @@ class Element: NSObject {
         return returnString as String
     }
     
+    /// Escapes a string for use in an XML attribute
+    ///
+    /// - Parameter value: The string to be escaped
+    /// - Returns: The string with special characters escaped
     internal static func escapeAttribute(_ value: String) -> NSMutableString {
         let mutable = NSMutableString(string: value)
         mutable.replacingOccurrences(of: "&", with: "&amp;")
