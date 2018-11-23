@@ -11,11 +11,11 @@ import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
+    var xmppConnectionManager: XMPPConnectionManager!
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        self.xmppConnectionManager = XMPPConnectionManager(withAppDelegate: self)
         // Override point for customization after application launch.
         return true
     }
@@ -90,4 +90,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

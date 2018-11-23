@@ -16,6 +16,10 @@ class ContactTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.avatar.layer.cornerRadius = self.avatar.frame.size.height / 2
+        self.avatar.layer.masksToBounds = true
+        self.avatar.layer.borderWidth = 0
         // Initialization code
     }
 
