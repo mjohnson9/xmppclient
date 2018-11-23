@@ -30,3 +30,6 @@ class XMPPCriticalSSLError: Error {
 
 class XMPPIncompatibleError: Error {
 }
+
+class XMPPXMLError: Error {
+}

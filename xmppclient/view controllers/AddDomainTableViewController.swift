@@ -37,7 +37,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionObserve
         self.beginVerifying()
         
         self.xmppConnection = XMPPConnection(forDomain: self.domainField.text!, allowInsecure: false)
-        self.xmppConnection.addConnectionObserver(observer: self)
+        _ = self.xmppConnection.addConnectionObserver(observer: self)
         DispatchQueue.global(qos: .userInitiated).async {
             self.xmppConnection.connect()
         }
@@ -68,7 +68,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionObserve
     }
     
     internal func askUserInsecure() {
-        // #warning Asking the user about an insecure domain still needs to be completed
+        #warning("Asking the user about an insecure domain still needs to be completed")
         let alert = UIAlertController(title: nil, message: "Server is insecure", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -111,6 +111,10 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionObserve
             self.endVerifying()
             
             print("connection status:", connectionStatus)
+            
+            let alert = UIAlertController(title: nil, message: "Sucessfully connected", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 

@@ -87,7 +87,7 @@ class Element: NSObject {
     ///
     /// - Parameter value: The string to be escaped
     /// - Returns: The string with special characters escaped
-    internal static func escapeAttribute(_ value: String) -> NSMutableString {
+    public static func escapeAttribute(_ value: String) -> NSMutableString {
         let mutable = NSMutableString(string: value)
         mutable.replacingOccurrences(of: "&", with: "&amp;")
         mutable.replacingOccurrences(of: "\"", with: "&quot;")
