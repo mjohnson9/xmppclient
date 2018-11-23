@@ -26,7 +26,7 @@ class Stanza {
     private let element: Element
     
     // MARK: Initializers
-    init(_ element: Element) {
+    init?(_ element: Element) {
         self.element = element
         
         self.tag = element.tag
