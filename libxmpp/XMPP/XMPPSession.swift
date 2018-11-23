@@ -9,8 +9,11 @@
 import Foundation
 
 class XMPPSession: NSObject {
-    struct Features {
-        var tls: Bool = false
+    struct Feature {
+        var namespace: String = ""
+        var name: String = ""
+        var required: Bool = false
+        var stanza: Element
     }
     
     struct RequestsMade {
@@ -18,7 +21,9 @@ class XMPPSession: NSObject {
         var startTls: Bool = false
     }
     
-    var features: Features = Features()
+    var secure: Bool = false
+    
+    var features: [Feature] = []
     var requestsMade: RequestsMade = RequestsMade()
     var receivedStreamStart: Bool = false
     var openingStreamQualifiedName: String!

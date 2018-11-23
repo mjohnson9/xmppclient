@@ -53,7 +53,7 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
         }
         
         
-        let connection = XMPPConnection(forDomain: data.domain!)
+        let connection = XMPPConnection(forDomain: data.domain!, allowInsecure: false)
         self.xmppConnections[indexPath.row] = connection
         DispatchQueue.global(qos: .background).async {
             connection.connect()

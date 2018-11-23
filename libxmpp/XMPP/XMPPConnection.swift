@@ -20,6 +20,8 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
     private var connectionAddresses: [(host: String, port: UInt16)]!
     private var currentConnectionAddress: Int = 0
     private var attemptReconnect: Bool = true
+    private var allInsecure: Bool = true
+    private var allowInsecure: Bool = false
     
     private var inStream: InputStream!
     private var outStream: OutputStream!
@@ -34,8 +36,13 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
     
     private var connectionObservers: [XMPPConnectionObserver] = []
     
-    init(forDomain domain: String) {
+    init(forDomain domain: String, allowInsecure: Bool) {
         self.domain = domain
+        self.allowInsecure = allowInsecure
+        if(self.allowInsecure) {
+            // Don't send a message about insecure servers if they allow insecure servers
+            self.allInsecure = false
+        }
     }
     
     public func connect() {
@@ -45,12 +52,15 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
     }
     
     public func disconnect() {
-        self.attemptReconnect = false
-        
-        self._disconnect()
+        self.disconnectWithoutRetry()
     }
     
-    internal func _disconnect() {
+    internal func disconnectWithoutRetry() {
+        self.attemptReconnect = false
+        self.disconnectAndRetry()
+    }
+    
+    internal func disconnectAndRetry() {
         self.session = nil
         
         if(self.inStream != nil) {
@@ -88,7 +98,11 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         while(self.attemptReconnect) {
             if(self.currentConnectionAddress > (self.connectionAddresses.count - 1)) {
                 print("\(self.domain): Ran out of hosts to connect to")
-                self.dispatchCannotConnect(error: XMPPUnableToConnectError())
+                if(self.allInsecure) {
+                    self.dispatchCannotConnect(error: XMPPCriticalSSLError())
+                } else {
+                    self.dispatchCannotConnect(error: XMPPUnableToConnectError())
+                }
                 return
             }
             
@@ -123,18 +137,22 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         let versionAttribute = stanza.attributes["version"]
         if(versionAttribute == nil) {
             // Version is a required attribute
-            print("Stream start is missing version attribute")
+            print("\(self.domain) Stream start is missing version attribute")
             self.sendStreamErrorAndClose(tag: "invalid-xml")
             return
         }
         let version = self.getVersion(versionAttribute!)
         if(version.major != 1 || version.minor != 0) {
-            print("Server version is unsupported:", versionAttribute!)
+            print("\(self.domain) Server version is unsupported:", versionAttribute!)
             self.sendStreamErrorAndClose(tag: "unsupported-version")
             return
         }
         
-        print("Received start of stream: \(stanza)")
+        if(self.session.secure) {
+            self.allInsecure = false
+        }
+        
+        print("\(self.domain): Received start of stream")
     }
     
     internal func getVersion(_ version: String) -> (major: Int, minor: Int) {
@@ -161,7 +179,7 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
             self.write(string: "</stream:stream>")
         }
         
-        self._disconnect()
+        self.disconnectAndRetry()
     }
     
     internal func receivedStanza(stanza: Element) {
@@ -184,9 +202,81 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         switch(stanza.tag) {
         case "features":
             return self.processFeatures(stanza: stanza)
+        case "error":
+            return self.processErrors(stanza: stanza)
         default:
             print("\(self.domain): Unable to handle stanza with tag", stanza.tag, "in namespace", stanza.resolvedNamespace)
             self.sendStreamErrorAndClose(tag: "unsupported-stanza-type")
+            return
+        }
+    }
+    
+    internal func processErrors(stanza: Element) {
+        var errorTag: String = ""
+        var errorContents: String?
+        var textContent: Dictionary<String, String> = [:]
+        for child in stanza.children {
+            if(child.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-streams") {
+                if(child.tag == "text") {
+                    var lang = ""
+                    let langAttribute = child.attributes["xml:lang"]
+                    if(langAttribute != nil) {
+                        lang = langAttribute!
+                    }
+                    if(child.contents != nil) {
+                        textContent[lang] = child.contents!
+                    }
+                } else {
+                    errorTag = child.tag
+                    errorContents = child.contents
+                }
+            }
+        }
+        
+        switch(errorTag) {
+        case "host-gone", "host-unknown":
+            // This XMPP server doesn't host the given domain
+            let attemptedConnectionAddress = self.connectionAddresses[self.currentConnectionAddress]
+            print("\(self.domain): Received \(errorTag) error from \(attemptedConnectionAddress.host):\(attemptedConnectionAddress.port)")
+            self.disconnectAndRetry()
+            return
+        case "see-other-host":
+            if(errorContents == nil) {
+                print("\(self.domain): Received see-other-host error with no host specified")
+                self.disconnectAndRetry()
+                return
+            }
+            
+            let newHost = errorContents!
+            print("\(self.domain): Got referral to another host:", newHost)
+            
+            let portIndex = newHost.lastIndex(of: ":")
+            var host = newHost
+            var port: UInt16 = 5222
+            if(portIndex != nil) {
+                let afterColonIndex = portIndex!.encodedOffset + 1
+                let portStr = newHost.suffix(afterColonIndex)
+                let portNum = UInt16(portStr)
+                if(portNum != nil) { // Parsing will fail if this is the end of an IPv6 address. That's deliberate.
+                    port = portNum!
+                    host = String(newHost.prefix(upTo: portIndex!))
+                }
+            }
+            
+            var alreadyExists: Bool = false // If we've already tried this referral, don't try again
+            for address in self.connectionAddresses {
+                if(address.host == host && address.port == port) {
+                    alreadyExists = true
+                }
+            }
+            if(!alreadyExists) {
+                self.connectionAddresses.insert((host: host, port: port), at: self.currentConnectionAddress) // Make the next connection attempt use the given host
+            }
+            self.disconnectAndRetry()
+            return
+        default:
+            // Switch has to be exhaustive
+            self.disconnectAndRetry()
             return
         }
     }
@@ -209,7 +299,7 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
                 return
             }
             
-            self.disconnect()
+            self.disconnectAndRetry()
             return
         default:
             print("\(self.domain): Unable to handle stanza with tag", stanza.tag, "in namespace", stanza.resolvedNamespace)
@@ -219,37 +309,46 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
     }
     
     internal func processFeatures(stanza: Element) {
+        for child in stanza.children {
+            let feature = self.createFeature(child)
+            self.session.features.append(feature)
+        }
+        
+        self.negotiateNextFeature()
+    }
+    
+    internal func negotiateNextFeature() {
         var anyRequired: Bool = false
         var nextNegotiable: Element!
         var negotiablePriority: Int = 0
         
-        for feature in stanza.children {
-            switch(feature.resolvedNamespace) {
+        for feature in self.session.features {
+            switch(feature.namespace) {
             case "urn:ietf:params:xml:ns:xmpp-tls":
-                if(feature.tag == "starttls") {
-                    var isRequired = false
-                    for child in feature.children {
-                        if(child.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-tls" && child.tag == "required") {
-                            isRequired = true
+                if(feature.name == "starttls") {
+                    if(!self.session.secure) {
+                        if(nextNegotiable == nil || (feature.required && negotiablePriority < 1000) || (!feature.required && !anyRequired && negotiablePriority < 1000)) {
+                            nextNegotiable = feature.stanza
+                            anyRequired = feature.required
+                            negotiablePriority = 1000
                         }
-                    }
-
-                    if(nextNegotiable == nil || (isRequired && negotiablePriority < 1000) || (!isRequired && !anyRequired && negotiablePriority < 1000)) {
-                        nextNegotiable = feature
-                        anyRequired = isRequired
-                        negotiablePriority = 1000
+                    } else {
+                        print("\(self.domain) Received TLS offer inside of a secure session")
                     }
                 }
                 break
             default:
-                for child in feature.children {
+                if(!anyRequired && feature.required) {
+                    anyRequired = true
+                }
+                /*for child in feature.children {
                     if(child.tag == "required") {
                         print("\(self.domain): \(feature.resolvedNamespace) -> \(feature.tag) is required and we don't know how to negotiate it")
                         anyRequired = true
                     }
                 }
                 
-                print("\(self.domain): Encountered unknown feature: \(feature.resolvedNamespace) -> \(feature.tag)")
+                print("\(self.domain): Encountered unknown feature: \(feature.resolvedNamespace) -> \(feature.tag)")*/
                 break
             }
         }
@@ -259,7 +358,7 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
             self.sendStreamErrorAndClose(tag: "unsupported-feature")
             return self.dispatchCannotConnect(error: XMPPIncompatibleError())
         }
-
+        
         if(nextNegotiable != nil) {
             if(nextNegotiable.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-tls" && nextNegotiable.tag == "starttls") {
                 return self.negotiateTLS()
@@ -269,6 +368,18 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         } else {
             print("\(self.domain): Negotiation finished.")
         }
+    }
+    
+    internal func createFeature(_ stanza: Element) -> XMPPSession.Feature {
+        var feature = XMPPSession.Feature(namespace: stanza.resolvedNamespace, name: stanza.tag, required: false, stanza: stanza)
+        
+        for child in stanza.children {
+            if(child.tag == "required") {
+                feature.required = true
+            }
+        }
+        
+        return feature
     }
     
     func parser(_: XMLParser, didStartMappingPrefix: String, toURI: String) {
@@ -467,6 +578,7 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         
         self.parserNeedsReset = true
         self.session = XMPPSession()
+        self.session!.secure = true
         self.sendStreamOpener()
     }
     
@@ -479,7 +591,7 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
     internal func sendStreamErrorAndClose(tag: String) {
         let streamError  = self.constructStreamError(tag: tag)
         self.write(string: streamError)
-        self._disconnect()
+        self.disconnectAndRetry()
         print("\(self.domain): Sent stream error:", tag)
     }
     
@@ -518,13 +630,17 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
         self.inStream.delegate = self
         self.outStream.delegate = self
         
-        self.inStream.open()
-        self.outStream.open()
-        
         DispatchQueue.global(qos: .background).async {
             self.outStream.schedule(in: RunLoop.current, forMode: .common)
             RunLoop.current.run()
         }
+        
+        self.inStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
+        self.outStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
+        
+        self.inStream.open()
+        self.outStream.open()
+        
         
         var parser: XMLParser = XMLParser(stream: self.inStream)
         
@@ -551,30 +667,12 @@ class XMPPConnection : NSObject, SRVResolverDelegate, XMLParserDelegate, StreamD
             }
         }
         
-        var error: Error?
+        var error: Error? = nil
         if(self.inStream != nil) {
             error = self.inStream.streamError
-            let nsError = error as NSError?
-            // Tell the user about SSL errors
-            if(nsError != nil) {
-                switch(OSStatus(nsError!.code)) {
-                case errSSLUnknownRootCert, errSSLUnknownRootCert, errSSLNoRootCert, errSSLCertExpired, errSSLXCertChainInvalid, errSSLHostNameMismatch, errSSLUnrecognizedName, errSSLPeerCertExpired, errSSLCertNotYetValid:
-                    print("\(self.domain): Received an SSL error (\(nsError!.code)) during StartTLS")
-                    self.dispatchCannotConnect(error: XMPPCriticalSSLError())
-                    self.disconnect()
-                    break
-                default:
-                    // Apparently all switch statements have to be exhaustive
-                    break
-                }
-            }
-            if(self.session!.requestsMade.startTls) {
-                print("\(self.domain): Stream failure during TLS negotiation")
-            }
         }
         
-        self._disconnect()
-        
+        self.disconnectAndRetry()
         
         return error
     }

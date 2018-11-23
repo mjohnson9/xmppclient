@@ -41,16 +41,21 @@ class Element: NSObject {
         var shortClose: Bool = true
         
         if(self.contents != nil && self.contents.count > 0) {
+            if(shortClose) {
+                returnString.append(">")
+                shortClose = false
+            }
             returnString.append(self.contents)
-            shortClose = false
         }
         
         if(self.children.count > 0) {
-            returnString.append(">")
+            if(shortClose) {
+                returnString.append(">")
+                shortClose = false
+            }
             for child in self.children {
                 returnString.append(child.serialize())
             }
-            shortClose = false
         }
         
         if(shortClose) {

@@ -36,7 +36,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionObserve
     internal func testDomain() {
         self.beginVerifying()
         
-        self.xmppConnection = XMPPConnection(forDomain: self.domainField.text!)
+        self.xmppConnection = XMPPConnection(forDomain: self.domainField.text!, allowInsecure: false)
         self.xmppConnection.addConnectionObserver(observer: self)
         DispatchQueue.global(qos: .userInitiated).async {
             self.xmppConnection.connect()
