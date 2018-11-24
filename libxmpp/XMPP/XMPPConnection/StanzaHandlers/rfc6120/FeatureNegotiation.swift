@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 extension XMPPConnection {
     internal func processFeatures(stanza: Element) {
@@ -34,7 +35,7 @@ extension XMPPConnection {
                             negotiablePriority = 1000
                         }
                     } else {
-                        print("\(self.domain) Received TLS offer inside of a secure session")
+                        os_log(.info, log: XMPPConnection.osLog, "%s: Received TLS offer inside of a secure session", self.domain)
                     }
                 }
                 break
@@ -42,20 +43,12 @@ extension XMPPConnection {
                 if(!anyRequired && feature.required) {
                     anyRequired = true
                 }
-                /*for child in feature.children {
-                 if(child.tag == "required") {
-                 print("\(self.domain): \(feature.resolvedNamespace) -> \(feature.tag) is required and we don't know how to negotiate it")
-                 anyRequired = true
-                 }
-                 }
-                 
-                 print("\(self.domain): Encountered unknown feature: \(feature.resolvedNamespace) -> \(feature.tag)")*/
                 break
             }
         }
         
         if(anyRequired && nextNegotiable == nil) {
-            print("\(self.domain): We don't support any of the required features. Disconnecting.")
+            os_log(.info, log: XMPPConnection.osLog, "%s: We don't support any of the required features. Disconnecting.", self.domain)
             self.sendStreamErrorAndClose(tag: "unsupported-feature")
             return self.fatalConnectionError(XMPPIncompatibleError())
         }
@@ -64,10 +57,11 @@ extension XMPPConnection {
             if(nextNegotiable.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-tls" && nextNegotiable.tag == "starttls") {
                 return self.negotiateTLS()
             } else {
-                fatalError("\(self.domain): Chose feature for negotiation that we don't support: \(nextNegotiable.resolvedNamespace ?? "(no namespace)") -> \(nextNegotiable.tag)")
+                os_log(.error, log: XMPPConnection.osLog, "%s: Chose feature for negotiation that we don't support: %{public}s -> %{public}s", self.domain, nextNegotiable.resolvedNamespace, nextNegotiable.tag)
+                fatalError()
             }
         } else {
-            print("\(self.domain): Negotiation finished.")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Negotiation finished.", self.domain)
             self.resetConnectionAttempts() // Finishing negotiation represents a successful connection
             
             #warning("Currently disconnecting after feature negotiation -- remove this later")

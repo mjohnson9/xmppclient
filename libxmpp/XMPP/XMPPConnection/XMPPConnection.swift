@@ -11,7 +11,8 @@ import Network
 import os.log
 
 class XMPPConnection : NSObject {
-    static internal let log = OSLog(subsystem: "computer.johnson.libxmpp.xmppconnection", category: "network")
+    static internal let osLog = OSLog(subsystem: "computer.johnson.libxmpp.XMPPConnection", category: "network")
+    
     let domain: String
     
     // MARK: Shared variables
@@ -36,7 +37,8 @@ class XMPPConnection : NSObject {
     // MARK: Public interface
     
     public func connect() {
-        print("Connecting to \(self.domain)")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Connecting", self.domain)
+        
         // Start by attempting to resolve SRV records
         self.resolveSRV()
     }

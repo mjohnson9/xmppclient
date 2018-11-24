@@ -21,7 +21,8 @@ class SRVRecord: NSObject {
         self.priority = UInt16(dict[kSRVResolverPriority] as! Int64)
         self.weight = UInt16(dict[kSRVResolverWeight] as! Int64)
         
-        self.weightForShuffle = Float.random(in: 0..<1) * (1.0 / Float(self.weight))
+        let weightNormalized: Float = (self.weight == 0 ? 0.1 : Float(self.weight))
+        self.weightForShuffle = Float.random(in: 0..<1) * (1.0 / weightNormalized)
     }
     
     static func shuffle(records: inout [SRVRecord]) {

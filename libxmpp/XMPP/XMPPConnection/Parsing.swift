@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 private struct AssociatedKeys {
     static var parserNeedsReset: UInt8 = 0
@@ -61,7 +62,7 @@ extension XMPPConnection: XMLParserDelegate {
         
         var namespaceURIs = self.session!.namespacePrefixes[didEndMappingPrefix]
         if(namespaceURIs == nil) {
-            print("\(self.domain): End of unknown namespace prefix: \(didEndMappingPrefix)")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Ended namespace %{public}s without ever starting it", self.domain, didEndMappingPrefix)
             self.sendStreamErrorAndClose(tag: "invalid-xml")
             return
         }
@@ -91,7 +92,7 @@ extension XMPPConnection: XMLParserDelegate {
                 let namespacePrefix = components[0]
                 let namespaceURIs = self.session!.namespacePrefixes[namespacePrefix]
                 if(namespaceURIs == nil || namespaceURIs!.count == 0) {
-                    print("\(self.domain): Encountered undefined namespace prefix: \(namespacePrefix)")
+                    os_log(.info, log: XMPPConnection.osLog, "%s: Element has namespace prefix of %{public}s, but the server never defined that prefix", self.domain, namespacePrefix)
                     self.sendStreamErrorAndClose(tag: "bad-format")
                     return
                 }
@@ -100,7 +101,7 @@ extension XMPPConnection: XMLParserDelegate {
                 element.resolvedNamespace = namespaceURI
                 break
             default:
-                print("\(self.domain): Encountered tag with odd number of prefixes: \(components)")
+                os_log(.info, log: XMPPConnection.osLog, "%s: Encountered tag with invalid number of prefixes: %{public}s", self.domain, qualifiedName!)
                 self.sendStreamErrorAndClose(tag: "bad-format")
                 return
             }
@@ -128,7 +129,7 @@ extension XMPPConnection: XMLParserDelegate {
         if(element.resolvedNamespace == "http://etherx.jabber.org/streams" && element.tag == "stream" && element.parent == nil) {
             if(self.session!.openingStreamQualifiedName != nil) {
                 // The stream opening was sent, but we've already received a stream open
-                print("\(self.domain): Received a second stream opening")
+                os_log(.info, log: XMPPConnection.osLog, "%s: Received a second stream opening", self.domain)
                 self.sendStreamErrorAndClose(tag: "invalid-xml")
                 return
             }
@@ -143,14 +144,14 @@ extension XMPPConnection: XMLParserDelegate {
     
     public func parser(_: XMLParser, didEndElement: String, namespaceURI: String?, qualifiedName: String?) {
         if(didEndElement != self.session.currentElement.tag) {
-            print("\(self.domain): Tag of ending element doesn't match element currently being processed: \(didEndElement) != \(self.session!.currentElement.tag)")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Tag of ending element doesn't match element currently being processed: %{public}s != %{public}s", self.domain, didEndElement, self.session!.currentElement.tag)
             self.sendStreamErrorAndClose(tag: "bad-format")
             return
         }
         
         if(self.session!.openingStreamQualifiedName != nil && qualifiedName == self.session!.openingStreamQualifiedName) {
             if(self.session!.currentElement != nil) {
-                print("\(self.domain): Received stream closing inside of another element")
+                os_log(.info, log: XMPPConnection.osLog, "%s: Received stream closing inside of another element", self.domain)
                 self.sendStreamErrorAndClose(tag: "bad-format")
                 return
             }
@@ -179,11 +180,46 @@ extension XMPPConnection: XMLParserDelegate {
         }
         
         if(self.session!.currentElement == nil) {
-            print("\(self.domain): Found characters outside of an element")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Received text node as a child of the root node", self.domain)
             self.sendStreamErrorAndClose(tag: "bad-format")
             return
         }
         
         self.session!.currentElement.contents = trimmedString
+    }
+    
+    public func parser(_: XMLParser, foundCDATA: Data) {
+        guard let currentElement = self.session!.currentElement else {
+            os_log(.info, log: XMPPConnection.osLog, "%s: Received CDATA as a child of the root node", self.domain)
+            self.sendStreamErrorAndClose(tag: "bad-format")
+            return
+        }
+        
+        guard currentElement.contents == nil else {
+            os_log(.info, log: XMPPConnection.osLog, "%s: Received CDATA in addition to text child node", self.domain)
+            self.sendStreamErrorAndClose(tag: "bad-format")
+            return
+        }
+        
+        currentElement.contents = String(data: foundCDATA, encoding: .utf8)
+    }
+    
+    // MARK: Fatal stream errors because of parsing
+    
+    public func parser(_: XMLParser, resolveExternalEntityName: String, systemID: String?) -> Data? {
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received XML external entity", self.domain)
+        self.sendStreamErrorAndClose(tag: "restricted-xml")
+        
+        return nil
+    }
+    
+    public func parser(_: XMLParser, foundProcessingInstructionWithTarget: String, data: String?) {
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received XML processing instruction", self.domain)
+        self.sendStreamErrorAndClose(tag: "restricted-xml")
+    }
+    
+    public func parser(_: XMLParser, foundComment: String) {
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received XML comment", self.domain)
+        self.sendStreamErrorAndClose(tag: "restricted-xml")
     }
 }

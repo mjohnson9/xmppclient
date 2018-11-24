@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import os.log
 
 extension XMPPConnection {
     internal func processTlsNamespace(stanza: Element) {
         switch(stanza.tag) {
         case "proceed":
             if(!self.session!.requestsMade.startTls) {
-                print("\(self.domain): Server sent StartTLS proceed without being asked")
+                os_log(.info, log: XMPPConnection.osLog, "%s: Server sent StartTLS proceed without being asked", self.domain)
                 self.sendStreamErrorAndClose(tag: "invalid-xml")
                 return
             }
@@ -22,7 +23,7 @@ extension XMPPConnection {
             return
         case "failure":
             if(!self.session!.requestsMade.startTls) {
-                print("\(self.domain): Server sent StartTLS failure without being asked")
+                os_log(.info, log: XMPPConnection.osLog, "%s: Server sent StartTLS failure without being asked", self.domain)
                 self.sendStreamErrorAndClose(tag: "invalid-xml")
                 return
             }
@@ -30,7 +31,7 @@ extension XMPPConnection {
             self.disconnectAndRetry()
             return
         default:
-            print("\(self.domain): Unable to handle stanza with tag", stanza.tag, "in namespace", stanza.resolvedNamespace)
+            os_log(.info, log: XMPPConnection.osLog, "%s: Unable to handle stanza with tag %{public}s in namespace %{public}s", self.domain, stanza.tag, stanza.resolvedNamespace)
             self.sendStreamErrorAndClose(tag: "unsupported-stanza-type")
             return
         }
@@ -48,7 +49,7 @@ extension XMPPConnection {
     internal func enableTLS() {
         self.streamEnableTLS()
         
-        print("\(self.domain): Enabled TLS")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Enabled TLS", self.domain)
         
         self.resetParser()
         self.session = XMPPSession()

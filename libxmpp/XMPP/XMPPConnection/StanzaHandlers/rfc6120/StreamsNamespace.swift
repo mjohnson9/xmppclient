@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 extension XMPPConnection {
     // MARK: Handler functions
@@ -18,37 +19,45 @@ extension XMPPConnection {
         case "error":
             return self.receivedStreamError(stanza: stanza)
         default:
-            print("\(self.domain): Unable to handle stanza with tag", stanza.tag, "in namespace", stanza.resolvedNamespace)
+            os_log(.info, log: XMPPConnection.osLog, "%s: Unable to handle stanza with tag %{public}s in namespace %{public}s", self.domain, stanza.tag, stanza.resolvedNamespace)
             self.sendStreamErrorAndClose(tag: "unsupported-stanza-type")
             return
         }
     }
     
     internal func receivedStreamStart(stanza: Element) {
+        if let defaultNamespace = stanza.defaultNamespace {
+            guard defaultNamespace == "jabber:client" else {
+                os_log(.info, log: XMPPConnection.osLog, "%s: Received invalid content namespace: %{public}s", self.domain, stanza.defaultNamespace)
+                self.sendStreamErrorAndClose(tag: "invalid-namespace")
+                return
+            }
+        }
+        
         guard let versionAttribute = stanza.attributes["version"] else {
             // Version is a required attribute
-            print("\(self.domain) Stream start is missing version attribute")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Stream start is missing version attribute", self.domain)
             self.sendStreamErrorAndClose(tag: "invalid-xml")
             return
         }
         
         guard let version = self.getVersion(versionAttribute) else {
-            print("\(self.domain) Unable to parse version attribute: \(versionAttribute)")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Unable to parse version attribute: %{public}s", self.domain, versionAttribute)
             self.sendStreamErrorAndClose(tag: "invalid-xml")
             return
         }
         
         if(version.major != 1 || version.minor != 0) {
-            print("\(self.domain) Server version is unsupported: \(version.major).\(version.minor)")
+            os_log(.info, log: XMPPConnection.osLog, "%s: Server version is unsupported: %{public}d.%{public}d", self.domain, version.major, version.minor)
             self.sendStreamErrorAndClose(tag: "unsupported-version")
             return
         }
         
-        print("\(self.domain): Received start of stream")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received start of stream", self.domain)
     }
     
     internal func receivedStreamEnd() {
-        print("\(self.domain): Received end of stream")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received end of stream", self.domain)
         
         if(!self.session.requestsMade.endStream) {
             self.writeStreamEnd()

@@ -50,21 +50,19 @@ extension XMPPConnection: SRVResolverDelegate {
     // MARK: Functions exposed to other modules
     
     internal func resolveSRV() {
-        print("\(self.domain): Resolving SRV records")
+        os_log(.debug, log: XMPPConnection.osLog, "%s: Resolving SRV records", self.domain)
         self.resolver = SRVResolver(srvName: self.srvName)
         self.resolver.delegate = self
         self.resolver.start()
         
         self.resolverTimer = Timer(timeInterval: 1.0, target: self, selector: #selector(self.resolverTimeout), userInfo: nil, repeats: false)
-        let runLoop = RunLoop.current
-        runLoop.add(self.resolverTimer, forMode: RunLoop.Mode.common)
-        runLoop.run()
+        RunLoop.current.add(self.resolverTimer, forMode: RunLoop.Mode.common)
     }
     
     // MARK: Handle DNS results
     
     private func switchToFallbackDNS() {
-        print("\(self.domain): Using fallback DNS")
+        os_log(.debug, log: XMPPConnection.osLog, "%s: Switching to fallback DNS", self.domain)
         self.connectionAddresses = [(host: self.domain, port: UInt16(5222))]
         self.startConnectionAttempts()
     }
@@ -79,7 +77,7 @@ extension XMPPConnection: SRVResolverDelegate {
         if(results.count == 1) {
             let result = results[0]
             if(result.target == ".") {
-                print("\(self.domain): Encountered SRV record with target of \".\". Service is unavailable for this domain.")
+                os_log(.info, log: XMPPConnection.osLog, "%s: The only SRV record for this domain has a target of \"%{public}s\". Service is unavailable for this domain.", self.domain, result.target)
                 self.dispatchCannotConnect(error: XMPPServiceNotSupportedError())
                 return
             }
@@ -100,13 +98,17 @@ extension XMPPConnection: SRVResolverDelegate {
         self.resolverTimer.invalidate()
         self.resolverTimer = nil
         
-        if(error != nil) {
-            print("\(self.domain): Failed to resolve \(self.srvName): \(String(describing: error))")
+        if error != nil {
+            if let errorCasted = error as NSError? {
+                os_log(.info, log: XMPPConnection.osLog, "%s: Failed to resolve SRV records: %@", self.domain, errorCasted)
+            } else {
+                os_log(.info, log: XMPPConnection.osLog, "%s: Failed to resolve SRV records: (unknown error type)", self.domain)
+            }
             self.switchToFallbackDNS()
             return
         }
         
-        print("\(self.domain): Received SRV records: \(String(describing: self.resolver.results))")
+        os_log(.debug, log: XMPPConnection.osLog, "%s: Received SRV records: %@", self.domain, self.resolver.results)
         self.handleSRVResults(results: self.convertSRVRecords(results: self.resolver.results))
     }
     
@@ -117,7 +119,7 @@ extension XMPPConnection: SRVResolverDelegate {
             return
         }
         
-        print("\(self.domain): Resolver timed out")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Resolver timed out", self.domain)
         
         self.resolver.stop()
         self.handleSRVResults(results: self.convertSRVRecords(results: self.resolver.results))

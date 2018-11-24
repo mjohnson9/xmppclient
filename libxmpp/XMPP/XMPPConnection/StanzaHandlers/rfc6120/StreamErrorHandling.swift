@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 extension XMPPConnection {
     internal func receivedStreamError(stanza: Element) {
@@ -32,7 +33,7 @@ extension XMPPConnection {
         }
         
         let attemptedConnectionAddress = self.connectionAddresses![self.currentConnectionAddress]
-        print("\(self.domain): Received \(errorTag) error from \(attemptedConnectionAddress.host):\(attemptedConnectionAddress.port)")
+        os_log(.info, log: XMPPConnection.osLog, "%s: Received %{public}s error from %s:%d", self.domain, attemptedConnectionAddress.host, attemptedConnectionAddress.port)
         
         switch(errorTag) {
         case "see-other-host":
@@ -47,14 +48,14 @@ extension XMPPConnection {
     
     // MARK: Private error handlers
     private func receivedSeeOtherHost(stanza: Element, errorContents: String?) {
-        if(errorContents == nil) {
-            print("\(self.domain): Received see-other-host error with no host specified")
+        guard errorContents != nil else {
+            os_log(.info, log: XMPPConnection.osLog, "%s: Received see-other-host error with no host specified", self.domain)
             self.disconnectAndRetry()
             return
         }
         
         let newHost = errorContents!
-        print("\(self.domain): Got referral to another host:", newHost)
+        os_log(.info, log: XMPPConnection.osLog, "%s: Got referral to another host: %s", self.domain, newHost)
         
         var host = newHost
         var port: UInt16 = 5222

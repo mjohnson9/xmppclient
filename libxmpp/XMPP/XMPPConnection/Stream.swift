@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 private struct AssociatedKeys {
     static var attemptReconnect: UInt8 = 0
@@ -172,13 +173,11 @@ extension XMPPConnection: StreamDelegate {
         
         DispatchQueue.global(qos: .background).async {
             self.outStream.schedule(in: RunLoop.current, forMode: .common)
-            RunLoop.current.run()
         }
         
         self.inStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
         self.outStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
         
-        self.inStream.open()
         self.outStream.open()
         
         
@@ -194,21 +193,22 @@ extension XMPPConnection: StreamDelegate {
             }
         }
         
-        if !success {
+        /*if !success {
             print("\(self.domain): Parser failed with an error")
             if self.outStream != nil && self.outStream.hasSpaceAvailable {
                 self.sendStreamErrorAndClose(tag: "bad-format")
             }
             self.disconnectAndRetry()
             return XMPPXMLError()
-        }
+        }*/
         
         var error: Error? = nil
         if(self.inStream != nil) {
             error = self.inStream.streamError
         }
         
-        self.disconnectAndRetry()
+        inStream.close()
+        outStream.close()
         
         return error
     }
@@ -236,6 +236,7 @@ extension XMPPConnection: StreamDelegate {
             #if DEBUG
             print("\(self.domain): \(aStream) has bytes available")
             #endif
+            break
         case Stream.Event.endEncountered:
             print("\(self.domain): \(aStream) encountered EOF")
             break
@@ -291,13 +292,11 @@ extension XMPPConnection: StreamDelegate {
     }
     
     private func write(string: String) {
-        #if DEBUG
-        print("\(self.domain) <-", string)
-        #endif
         let encodedString: Data = string.data(using: .utf8)!
         _ = encodedString.withUnsafeBytes {
             self.outStream.write($0, maxLength: encodedString.count)
         }
+        os_log(.debug, log: XMPPConnection.osLog, "%s <- %{private}s", self.domain, string)
     }
     
     // MARK: Disconnect functions
@@ -312,18 +311,11 @@ extension XMPPConnection: StreamDelegate {
         
         self.gracefulCloseTimer = Timer(timeInterval: 1.0, target: self, selector: #selector(self.gracefulCloseTimeout), userInfo: nil, repeats: false)
         DispatchQueue.global(qos: .background).async {
-            let runLoop = RunLoop.current
-            runLoop.add(self.gracefulCloseTimer, forMode: RunLoop.Mode.common)
-            runLoop.run()
+            RunLoop.current.add(self.gracefulCloseTimer, forMode: RunLoop.Mode.common)
         }
     }
     
     internal func disconnectWithoutRetry() {
-        if self.gracefulCloseTimer != nil {
-            self.gracefulCloseTimer.invalidate()
-            self.gracefulCloseTimer = nil
-        }
-        
         self.attemptReconnect = false
         self.disconnectAndRetry()
     }
@@ -331,14 +323,23 @@ extension XMPPConnection: StreamDelegate {
     internal func disconnectAndRetry() {
         self.session = nil
         
-        if(self.inStream != nil) {
+        if self.inStream != nil {
             self.inStream.close()
             self.inStream = nil
         }
         
-        if(self.outStream != nil) {
+        if self.outStream != nil {
             self.outStream.close()
             self.outStream = nil
+        }
+        
+        if self.gracefulCloseTimer != nil {
+            DispatchQueue.global(qos: .background).async {
+                self.gracefulCloseTimer.invalidate()
+                self.gracefulCloseTimer = nil
+                
+                print("Invalidated graceful close timer")
+            }
         }
     }
     
@@ -346,7 +347,7 @@ extension XMPPConnection: StreamDelegate {
     
     @objc private func gracefulCloseTimeout() {
         self.disconnectWithoutRetry()
-        print("\(self.domain): Graceful closed timed out")
+        print("\(self.domain): Graceful close timed out")
     }
     
     // MARK: Helper functions
@@ -357,6 +358,7 @@ extension XMPPConnection: StreamDelegate {
         parser.shouldResolveExternalEntities = false
         parser.shouldProcessNamespaces = true
         parser.shouldReportNamespacePrefixes = true
+        parser.externalEntityResolvingPolicy = .never
         
         parser.delegate = self
         
