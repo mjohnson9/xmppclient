@@ -29,7 +29,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionDelegat
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        if(self.xmppConnection != nil) {
+        if self.xmppConnection != nil {
             self.xmppConnection.disconnect()
             self.xmppConnection = nil
         }
@@ -81,19 +81,15 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionDelegat
             self.endVerifying()
 
             var userText: String = ""
-            switch(error) {
+            switch error {
             case is XMPPNoSuchDomainError:
                 userText = "The given domain does not exist."
-                break
             case is XMPPUnableToConnectError:
                 userText = "The domain did not respond to connection attempts."
-                break
             case is XMPPServiceNotSupportedError:
                 userText = "The given domain does not support Jabber."
-                break
             case is XMPPIncompatibleError:
                 userText = "The given domain requires features that this client doesn't support."
-                break
             case is XMPPCriticalSSLError:
                 return self.askUserInsecure()
             default:

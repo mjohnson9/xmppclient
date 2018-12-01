@@ -12,7 +12,9 @@ import Foundation
 import libxmpp
 
 class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
+    // swiftlint:disable weak_delegate
     var appDelegate: AppDelegate
+    // swiftlint:enable weak_delegate
     var xmppConnections: [XMPPConnection?] = []
 
     var serverFetchedResultsController: NSFetchedResultsController<Server>!
@@ -47,7 +49,7 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
             fatalError("Attempt to start connection for a path without an object")
         }
 
-        if(self.xmppConnections.count < (indexPath.row + 1)) {
+        if self.xmppConnections.count < (indexPath.row + 1) {
             let needToAdd = (indexPath.row + 1) - self.xmppConnections.count
             for _ in 1...needToAdd {
                 self.xmppConnections.append(nil)
@@ -74,7 +76,7 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        if(controller == self.serverFetchedResultsController) {
+        if controller == self.serverFetchedResultsController {
             switch type {
             case .insert:
                 self.startNewConnection(indexPath: indexPath!)

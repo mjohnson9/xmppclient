@@ -61,9 +61,9 @@ class SettingsTableView: UITableView, UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if(indexPath.section == 0) {
+        if indexPath.section == 0 {
             let lastRow = (tableView.numberOfRows(inSection: indexPath.section) - 1)
-            if(indexPath.row != lastRow) {
+            if indexPath.row != lastRow {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "showAccount", for: indexPath)
 
                 guard let object = self.serverFetchedResultsController?.object(at: indexPath) else {
@@ -82,7 +82,7 @@ class SettingsTableView: UITableView, UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section == 0) {
+        if section == 0 {
             guard let sections = serverFetchedResultsController.sections else {
                 return 1
             }
@@ -110,7 +110,7 @@ class SettingsTableView: UITableView, UITableViewDataSource, UITableViewDelegate
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         var actualSectionIndex: Int
-        if(controller == self.serverFetchedResultsController) {
+        if controller == self.serverFetchedResultsController {
             actualSectionIndex = 0
         } else {
             fatalError("Got section change notice from unknown controller")
@@ -129,7 +129,7 @@ class SettingsTableView: UITableView, UITableViewDataSource, UITableViewDelegate
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         var actualSection: Int
-        if(controller == self.serverFetchedResultsController) {
+        if controller == self.serverFetchedResultsController {
             actualSection = 0
         } else {
             fatalError("Got section change notice from unknown controller")
@@ -138,16 +138,14 @@ class SettingsTableView: UITableView, UITableViewDataSource, UITableViewDelegate
         var correctedIndexPath: IndexPath?
         var correctedNewIndexPath: IndexPath?
 
-        if(indexPath != nil) {
-            let iP = indexPath!
-            correctedIndexPath = IndexPath(row: iP.row, section: actualSection)
-            correctedIndexPath?.item = iP.item
+        if let indexPath = indexPath {
+            correctedIndexPath = IndexPath(row: indexPath.row, section: actualSection)
+            correctedIndexPath?.item = indexPath.item
         }
 
-        if(newIndexPath != nil) {
-            let iP = newIndexPath!
-            correctedNewIndexPath = IndexPath(row: iP.row, section: actualSection)
-            correctedNewIndexPath?.item = iP.item
+        if let newIndexPath = newIndexPath {
+            correctedNewIndexPath = IndexPath(row: newIndexPath.row, section: actualSection)
+            correctedNewIndexPath?.item = newIndexPath.item
         }
 
         switch type {
