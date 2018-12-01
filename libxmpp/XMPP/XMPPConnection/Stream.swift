@@ -17,6 +17,7 @@ private struct AssociatedKeys {
     static var readThread: UInt8 = 0
     static var connectionErrors: UInt8 = 0
     static var gracefulCloseTimer: UInt8 = 0
+    static var parser: UInt8 = 0
 }
 
 extension XMPPConnection: StreamDelegate {
@@ -105,6 +106,18 @@ extension XMPPConnection: StreamDelegate {
         }
     }
     
+    private var parser: EventedXMLParser! {
+        get {
+            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.parser) as? EventedXMLParser else {
+                return nil
+            }
+            return value
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &AssociatedKeys.parser, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
     internal var streamIsOpen: Bool {
         get {
             if self.inStream == nil || self.outStream == nil {
@@ -118,12 +131,6 @@ extension XMPPConnection: StreamDelegate {
     // MARK: Connection functions
     
     internal func startConnectionAttempts() {
-        self.readThread = Thread(target: self, selector: #selector(self.readThreadMain), object: nil)
-        self.readThread.name = "XMPP receiving: \(self.domain)"
-        self.readThread.start()
-    }
-    
-    @objc private func readThreadMain() {
         if(self.connectionAddresses == nil) {
             self.dispatchCannotConnect(error: XMPPUnableToConnectError())
             return
@@ -171,46 +178,40 @@ extension XMPPConnection: StreamDelegate {
         self.inStream.delegate = self
         self.outStream.delegate = self
         
-        DispatchQueue.global(qos: .background).async {
-            self.outStream.schedule(in: RunLoop.current, forMode: .common)
-        }
+        self.inStream.schedule(in: RunLoop.current, forMode: .common)
+        self.outStream.schedule(in: RunLoop.current, forMode: .common)
         
         self.inStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
         self.outStream.setProperty(kCFBooleanTrue, forKey: kCFStreamPropertySocketExtendedBackgroundIdleMode as Stream.PropertyKey)
         
+        self.parser = self.createParser()
+        
         self.outStream.open()
+        self.inStream.open()
+    }
+    
+    private func readIntoXMLParser() {
+        var bufferPointer: UnsafeMutablePointer<UInt8>? = nil
+        var bufferLength: Int = 0
+        let readBufferCreated = self.inStream.getBuffer(&bufferPointer, length: &bufferLength)
         
-        
-        var parser = self.createParser()
-        var success: Bool = true
-        while(success && self.inStream != nil) {
-            success = parser.parse()
-            
-            if(self.parserNeedsReset && self.inStream != nil) {
-                parser = self.createParser()
-                success = true // Ignore any failures that came from resetting the parser
-                self.parserHasReset()
-            }
+        guard readBufferCreated else {
+            os_log(.info, log: XMPPConnection.osLog, "%s: Received indication that bytes were available, but a read buffer was unable to be created", self.domain)
+            return
         }
         
-        /*if !success {
-            print("\(self.domain): Parser failed with an error")
-            if self.outStream != nil && self.outStream.hasSpaceAvailable {
-                self.sendStreamErrorAndClose(tag: "bad-format")
-            }
-            self.disconnectAndRetry()
-            return XMPPXMLError()
-        }*/
-        
-        var error: Error? = nil
-        if(self.inStream != nil) {
-            error = self.inStream.streamError
+        guard let derefBufferPointer = bufferPointer else {
+            os_log(.error, log: XMPPConnection.osLog, "%s: Read buffer was created, but the pointer is nil", self.domain)
+            fatalError()
         }
         
-        inStream.close()
-        outStream.close()
+        guard bufferLength > 0 else {
+            os_log(.error, log: XMPPConnection.osLog, "%s: Read buffer was created, but the buffer length is %d", self.domain, bufferLength)
+            fatalError()
+        }
         
-        return error
+        let data = Data(bytes: derefBufferPointer, count: bufferLength)
+        self.parser.feed(data)
     }
     
     // MARK: Functions exposed to other modules
@@ -236,6 +237,7 @@ extension XMPPConnection: StreamDelegate {
             #if DEBUG
             print("\(self.domain): \(aStream) has bytes available")
             #endif
+            self.readIntoXMLParser()
             break
         case Stream.Event.endEncountered:
             print("\(self.domain): \(aStream) encountered EOF")
@@ -352,13 +354,11 @@ extension XMPPConnection: StreamDelegate {
     
     // MARK: Helper functions
     
-    private func createParser() -> XMLParser {
-        let parser = XMLParser(stream: self.inStream)
-        
-        parser.shouldResolveExternalEntities = false
-        parser.shouldProcessNamespaces = true
-        parser.shouldReportNamespacePrefixes = true
-        parser.externalEntityResolvingPolicy = .never
+    private func createParser() -> EventedXMLParser {
+        guard let parser = EventedXMLParser() else {
+            os_log(.error, log: XMPPConnection.osLog, "%s: Failed to create XML parser", self.domain)
+            fatalError()
+        }
         
         parser.delegate = self
         

@@ -10,6 +10,7 @@
 		4C0D09B421A579C600A78E57 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D09B321A579C600A78E57 /* SettingsTableView.swift */; };
 		4C0D09B621A5802A00A78E57 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */; };
 		4C10E9AC21A56FE900B4B456 /* XMPPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10E9AB21A56FE900B4B456 /* XMPPConnection.swift */; };
+		4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */; };
 		4C5AFC5321A9F7D700C78A04 /* EventedXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5AFC5221A9F7D700C78A04 /* EventedXMLParser.swift */; };
 		4C5AFC5521A9F87800C78A04 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C5AFC5421A9F87700C78A04 /* libxml2.tbd */; };
 		4C9DCEF021A636B600906315 /* XMPPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DCEEF21A636B600906315 /* XMPPSession.swift */; };
@@ -63,6 +64,7 @@
 		4C0D09B321A579C600A78E57 /* SettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4C10E9AB21A56FE900B4B456 /* XMPPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMPPConnection.swift; sourceTree = "<group>"; };
+		4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C5AFC5221A9F7D700C78A04 /* EventedXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventedXMLParser.swift; sourceTree = "<group>"; };
 		4C5AFC5421A9F87700C78A04 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		4C9DCEEF21A636B600906315 /* XMPPSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMPPSession.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				4C9DCEF321A63A2B00906315 /* Element.swift */,
+				4C5AFC5221A9F7D700C78A04 /* EventedXMLParser.swift */,
 			);
 			path = XML;
 			sourceTree = "<group>";
@@ -174,7 +177,6 @@
 				4C9DCEFB21A63CD000906315 /* SRVResolver.h */,
 				4C9DCEF821A63C9B00906315 /* xmppclient-Bridging-Header.h */,
 				4CFBE17C21A701BE00D314DB /* SRVRecord.swift */,
-				4C5AFC5221A9F7D700C78A04 /* EventedXMLParser.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -182,6 +184,7 @@
 		4CCD17D621A4BF38001D3D29 = {
 			isa = PBXGroup;
 			children = (
+				4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */,
 				4CE7CEF021A8483000E26F6C /* .gitignore */,
 				4CCD17E121A4BF38001D3D29 /* xmppclient */,
 				4C10E9AA21A56FAB00B4B456 /* libxmpp */,
@@ -320,6 +323,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CCD180A21A4BF38001D3D29 /* Build configuration list for PBXNativeTarget "xmppclient" */;
 			buildPhases = (
+				4C3ED57521B2E16E007CB7AD /* ShellScript */,
 				4CCD17DB21A4BF38001D3D29 /* Sources */,
 				4CCD17DC21A4BF38001D3D29 /* Frameworks */,
 				4CCD17DD21A4BF38001D3D29 /* Resources */,
@@ -423,6 +427,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */,
 				4CE7CEF121A8483000E26F6C /* .gitignore in Resources */,
 				4CCD17F021A4BF38001D3D29 /* LaunchScreen.storyboard in Resources */,
 				4CCD17ED21A4BF38001D3D29 /* Assets.xcassets in Resources */,
@@ -445,6 +450,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4C3ED57521B2E16E007CB7AD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4CCD17DB21A4BF38001D3D29 /* Sources */ = {

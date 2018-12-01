@@ -30,7 +30,7 @@ class SRVRecord: NSObject {
     }
     
     internal static func compare(recordOne: SRVRecord, recordTwo: SRVRecord) -> Bool {
-        if(recordOne.priority != recordTwo.priority) {
+        if recordOne.priority != recordTwo.priority  {
             return recordOne.priority < recordTwo.priority
         }
         
