@@ -77,7 +77,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionDelegat
     }
 
     func xmppCannotConnect(error: Error) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.sync {
             self.endVerifying()
 
             var userText: String = ""
@@ -105,7 +105,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionDelegat
     }
 
     func xmppConnected(connectionStatus: XMPPConnectionStatus) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.sync {
             self.endVerifying()
 
             print("connection status:", connectionStatus)
