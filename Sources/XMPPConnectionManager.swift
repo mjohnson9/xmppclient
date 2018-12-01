@@ -12,9 +12,8 @@ import Foundation
 import libxmpp
 
 class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
-    // swiftlint:disable weak_delegate
+    // swiftlint:disable:next weak_delegate
     var appDelegate: AppDelegate
-    // swiftlint:enable weak_delegate
     var xmppConnections: [XMPPConnection?] = []
 
     var serverFetchedResultsController: NSFetchedResultsController<Server>!
