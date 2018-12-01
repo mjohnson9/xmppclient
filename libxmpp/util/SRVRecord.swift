@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 class SRVRecord: NSObject {
     var target: String
@@ -14,26 +15,30 @@ class SRVRecord: NSObject {
     var priority: UInt16
     var weight: UInt16
     internal var weightForShuffle: Float
-    
+
     init(dict: NSDictionary) {
-        self.target = dict[kSRVResolverTarget] as! String
-        self.port = UInt16(dict[kSRVResolverPort] as! Int64)
-        self.priority = UInt16(dict[kSRVResolverPriority] as! Int64)
-        self.weight = UInt16(dict[kSRVResolverWeight] as! Int64)
-        
+        guard let target = dict[kSRVResolverTarget] as? String, let port = dict[kSRVResolverPort] as? Int64, let priority = dict[kSRVResolverPriority] as? Int64, let weight = dict[kSRVResolverWeight] as? Int64 else {
+            os_log(.error, "Received invalid SRV record dictionary: %@", dict)
+            fatalError()
+        }
+        self.target = target
+        self.port = UInt16(port)
+        self.priority = UInt16(priority)
+        self.weight = UInt16(weight)
+
         let weightNormalized: Float = (self.weight == 0 ? 0.1 : Float(self.weight))
         self.weightForShuffle = Float.random(in: 0..<1) * (1.0 / weightNormalized)
     }
-    
+
     static func shuffle(records: inout [SRVRecord]) {
         records.sort(by: SRVRecord.compare)
     }
-    
+
     internal static func compare(recordOne: SRVRecord, recordTwo: SRVRecord) -> Bool {
-        if recordOne.priority != recordTwo.priority  {
+        if recordOne.priority != recordTwo.priority {
             return recordOne.priority < recordTwo.priority
         }
-        
+
         return recordOne.weightForShuffle < recordTwo.weightForShuffle
     }
 }

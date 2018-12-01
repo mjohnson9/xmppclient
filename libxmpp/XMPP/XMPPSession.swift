@@ -15,20 +15,20 @@ class XMPPSession: NSObject {
         var required: Bool = false
         var stanza: Element
     }
-    
+
     struct RequestsMade {
         var endStream: Bool = false
         var startTls: Bool = false
     }
-    
+
     var secure: Bool = false
-    
+
     var features: [Feature] = []
     var requestsMade: RequestsMade = RequestsMade()
     var receivedStreamStart: Bool = false
     var openingStreamQualifiedName: String!
 
     var currentElement: Element!
-    var namespacesForElement: Dictionary<String, String>!
-    var namespacePrefixes: Dictionary<String, [String]> = [:]
+    var namespacesForElement: [String: String]!
+    var namespacePrefixes: [String: [String]] = [:]
 }

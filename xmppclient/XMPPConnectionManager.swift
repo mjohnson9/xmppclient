@@ -14,7 +14,7 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
     var xmppConnections: [XMPPConnection?] = []
 
     var serverFetchedResultsController: NSFetchedResultsController<Server>!
-    
+
     init(withAppDelegate parent: AppDelegate) {
         self.appDelegate = parent
 
@@ -22,56 +22,55 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
 
         self.initializeFetchedResultsController()
     }
-    
+
     func initializeFetchedResultsController() {
         let moc = self.appDelegate.persistentContainer.viewContext
-        
+
         let request = NSFetchRequest<Server>(entityName: "Server")
         let domainSort = NSSortDescriptor(key: "domain", ascending: true)
         request.sortDescriptors = [domainSort]
-        
+
         self.serverFetchedResultsController = NSFetchedResultsController<Server>(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
         self.serverFetchedResultsController.delegate = self
-        
+
         do {
             try self.serverFetchedResultsController.performFetch()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
-    
+
     internal func startNewConnection(indexPath: IndexPath) {
         guard let data = self.serverFetchedResultsController?.object(at: indexPath) else {
             fatalError("Attempt to start connection for a path without an object")
         }
-        
+
         if(self.xmppConnections.count < (indexPath.row + 1)) {
             let needToAdd = (indexPath.row + 1) - self.xmppConnections.count
             for _ in 1...needToAdd {
                 self.xmppConnections.append(nil)
             }
         }
-        
-        
+
         let connection = XMPPConnection(forDomain: data.domain!, allowInsecure: false)
         self.xmppConnections[indexPath.row] = connection
         DispatchQueue.global(qos: .background).async {
             connection.connect()
         }
     }
-    
+
     internal func stopConnection(indexPath: IndexPath) {
-        
+
     }
-    
+
     internal func moveConnection(oldIndexPath: IndexPath, newIndexPath: IndexPath) {
-        
+
     }
-    
+
     internal func updateConnection(indexPath: IndexPath) {
-        
+
     }
-    
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         if(controller == self.serverFetchedResultsController) {
             switch type {

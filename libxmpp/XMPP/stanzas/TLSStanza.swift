@@ -11,10 +11,10 @@ import Foundation
 /// This class is only used to differentiate values passed to TLS handling functions
 class TLSStanza: Stanza {
     override init?(_ element: Element) {
-        if(element.resolvedNamespace != "urn:ietf:params:xml:ns:xmpp-tls") {
+        if element.resolvedNamespace != "urn:ietf:params:xml:ns:xmpp-tls" {
             return nil
         }
-        
+
         super.init(element)
     }
 }

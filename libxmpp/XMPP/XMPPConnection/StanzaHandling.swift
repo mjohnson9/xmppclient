@@ -12,8 +12,8 @@ import os.log
 extension XMPPConnection {
     internal func receivedStanza(stanza: Element) {
         os_log(.debug, log: XMPPConnection.osLog, "%s <- %{private}s", self.domain, stanza.serialize())
-        
-        switch(stanza.resolvedNamespace) {
+
+        switch stanza.resolvedNamespace {
         case "http://etherx.jabber.org/streams":
             return self.processStreamsNamespace(stanza: stanza)
         case "urn:ietf:params:xml:ns:xmpp-tls":

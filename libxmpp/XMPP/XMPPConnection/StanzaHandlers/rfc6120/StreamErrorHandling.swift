@@ -13,28 +13,26 @@ extension XMPPConnection {
     internal func receivedStreamError(stanza: Element) {
         var errorTag: String = ""
         var errorContents: String?
-        var textContent: Dictionary<String, String> = [:]
-        for child in stanza.children {
-            if(child.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-streams") {
-                if(child.tag == "text") {
-                    var lang = ""
-                    let langAttribute = child.attributes["xml:lang"]
-                    if(langAttribute != nil) {
-                        lang = langAttribute!
-                    }
-                    if(child.contents != nil) {
-                        textContent[lang] = child.contents!
-                    }
-                } else {
-                    errorTag = child.tag
-                    errorContents = child.contents
+        var textContent: [String: String] = [:]
+        for child in stanza.children where child.resolvedNamespace == "urn:ietf:params:xml:ns:xmpp-streams" {
+            if child.tag == "text" {
+                var lang = ""
+                let langAttribute = child.attributes["xml:lang"]
+                if langAttribute != nil {
+                    lang = langAttribute!
                 }
+                if child.contents != nil {
+                    textContent[lang] = child.contents!
+                }
+            } else {
+                errorTag = child.tag
+                errorContents = child.contents
             }
         }
-        
+
         let attemptedConnectionAddress = self.connectionAddresses![self.currentConnectionAddress]
         os_log(.info, log: XMPPConnection.osLog, "%s: Received %{public}s error from %s:%d", self.domain, attemptedConnectionAddress.host, attemptedConnectionAddress.port)
-        
+
         switch(errorTag) {
         case "see-other-host":
             self.receivedSeeOtherHost(stanza: stanza, errorContents: errorContents)
@@ -45,7 +43,7 @@ extension XMPPConnection {
             return
         }
     }
-    
+
     // MARK: Private error handlers
     private func receivedSeeOtherHost(stanza: Element, errorContents: String?) {
         guard errorContents != nil else {
@@ -53,10 +51,10 @@ extension XMPPConnection {
             self.disconnectAndRetry()
             return
         }
-        
+
         let newHost = errorContents!
         os_log(.info, log: XMPPConnection.osLog, "%s: Got referral to another host: %s", self.domain, newHost)
-        
+
         var host = newHost
         var port: UInt16 = 5222
         if let portIndex = newHost.lastIndex(of: ":") {
@@ -67,7 +65,7 @@ extension XMPPConnection {
                 host = String(newHost.prefix(upTo: portIndex))
             }
         }
-        
+
         var alreadyExists: Bool = false // If we've already tried this referral, don't try again
         for address in self.connectionAddresses {
             if(address.host == host && address.port == port) {
@@ -77,7 +75,7 @@ extension XMPPConnection {
         if(!alreadyExists) {
             self.connectionAddresses.insert((host: host, port: port), at: self.currentConnectionAddress) // Make the next connection attempt use the given host
         }
-        
+
         self.disconnectAndRetry()
     }
 }

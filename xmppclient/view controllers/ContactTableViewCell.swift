@@ -13,10 +13,10 @@ class ContactTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var lastMessage: UILabel!
     @IBOutlet weak var lastMessageTime: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         self.avatar.layer.cornerRadius = self.avatar.frame.size.height / 2
         self.avatar.layer.masksToBounds = true
         self.avatar.layer.borderWidth = 0

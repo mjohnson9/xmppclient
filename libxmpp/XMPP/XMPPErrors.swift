@@ -10,7 +10,7 @@ import Foundation
 
 class XMPPErrorStanza: Error {
     var stanza: Element
-    
+
     init(stanza: Element) {
         self.stanza = stanza
     }
