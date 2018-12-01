@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		4C0D09B421A579C600A78E57 /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D09B321A579C600A78E57 /* SettingsTableView.swift */; };
 		4C0D09B621A5802A00A78E57 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */; };
+		4C1D34B221B2FDA5009D9BB4 /* libxmpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */; };
+		4C1D34B321B2FDA5009D9BB4 /* libxmpp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */; };
-		4C5AFC5521A9F87800C78A04 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C5AFC5421A9F87700C78A04 /* libxml2.tbd */; };
 		4CCD17E321A4BF38001D3D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */; };
 		4CCD17E521A4BF38001D3D29 /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E421A4BF38001D3D29 /* ContactListViewController.swift */; };
 		4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17E621A4BF38001D3D29 /* Main.storyboard */; };
@@ -21,12 +22,32 @@
 		4CCD180621A4BF38001D3D29 /* xmppclientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */; };
 		4CCD181421A4F01B001D3D29 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD181321A4F01B001D3D29 /* ContactTableViewCell.swift */; };
 		4CE7CEF121A8483000E26F6C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4CE7CEF021A8483000E26F6C /* .gitignore */; };
-		4CFBE17521A6D19700D314DB /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFBE17421A6D19600D314DB /* libresolv.tbd */; };
 		4CFBE17721A6E6AD00D314DB /* AddDomainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFBE17621A6E6AD00D314DB /* AddDomainTableViewController.swift */; };
 		4CFBE17921A6E84100D314DB /* XMPPConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFBE17821A6E84100D314DB /* XMPPConnectionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C1D34AE21B2FD8F009D9BB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4C3ED55B21B2DE93007CB7AD;
+			remoteInfo = libxmpp;
+		};
+		4C1D34B021B2FD8F009D9BB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4C3ED56421B2DE93007CB7AD;
+			remoteInfo = libxmppTests;
+		};
+		4C1D34B421B2FDA5009D9BB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C3ED55A21B2DE93007CB7AD;
+			remoteInfo = libxmpp;
+		};
 		4CCD17F721A4BF38001D3D29 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4CCD17D721A4BF38001D3D29 /* Project object */;
@@ -43,9 +64,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4C1D344E21B2E88E009D9BB4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4C1D34B321B2FDA5009D9BB4 /* libxmpp.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		4C0D09B321A579C600A78E57 /* SettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4C1D345221B2E941009D9BB4 /* xmppclient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = xmppclient.entitlements; sourceTree = "<group>"; };
+		4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libxmpp.xcodeproj; path = ../libxmpp/libxmpp.xcodeproj; sourceTree = "<group>"; };
 		4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C5AFC5421A9F87700C78A04 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		4CCD17DF21A4BF38001D3D29 /* xmppclient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmppclient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,8 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C5AFC5521A9F87800C78A04 /* libxml2.tbd in Frameworks */,
-				4CFBE17521A6D19700D314DB /* libresolv.tbd in Frameworks */,
+				4C1D34B221B2FDA5009D9BB4 /* libxmpp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,15 +140,34 @@
 			path = "view objects";
 			sourceTree = "<group>";
 		};
+		4C1D34A821B2FD06009D9BB4 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		4C1D34AA21B2FD8F009D9BB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */,
+				4C1D34B121B2FD8F009D9BB4 /* libxmppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4CCD17D621A4BF38001D3D29 = {
 			isa = PBXGroup;
 			children = (
 				4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */,
 				4CE7CEF021A8483000E26F6C /* .gitignore */,
+				4CCD17F121A4BF38001D3D29 /* Info.plist */,
 				4CCD17E121A4BF38001D3D29 /* Sources */,
 				4CCD17F921A4BF38001D3D29 /* Tests */,
 				4CCD180421A4BF38001D3D29 /* UITests */,
 				4CCD17E021A4BF38001D3D29 /* Products */,
+				4C1D34A821B2FD06009D9BB4 /* Vendor */,
 				4CFBE17321A6D19600D314DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -137,7 +192,6 @@
 				4C0D09B221A579A800A78E57 /* view objects */,
 				4CCD181521A4F62D001D3D29 /* models */,
 				4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */,
-				4CCD17F121A4BF38001D3D29 /* Info.plist */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -154,6 +208,7 @@
 		4CCD180421A4BF38001D3D29 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				4C1D345221B2E941009D9BB4 /* xmppclient.entitlements */,
 				4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */,
 				4CCD180721A4BF38001D3D29 /* Info.plist */,
 			);
@@ -208,10 +263,12 @@
 				4CCD17DB21A4BF38001D3D29 /* Sources */,
 				4CCD17DC21A4BF38001D3D29 /* Frameworks */,
 				4CCD17DD21A4BF38001D3D29 /* Resources */,
+				4C1D344E21B2E88E009D9BB4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4C1D34B521B2FDA5009D9BB4 /* PBXTargetDependency */,
 			);
 			name = xmppclient;
 			productName = xmppclient;
@@ -268,6 +325,14 @@
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
+						};
 					};
 					4CCD17F521A4BF38001D3D29 = {
 						CreatedOnToolsVersion = 9.1;
@@ -294,6 +359,12 @@
 			mainGroup = 4CCD17D621A4BF38001D3D29;
 			productRefGroup = 4CCD17E021A4BF38001D3D29 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4C1D34AA21B2FD8F009D9BB4 /* Products */;
+					ProjectRef = 4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4CCD17DE21A4BF38001D3D29 /* xmppclient */,
@@ -302,6 +373,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = libxmpp.framework;
+			remoteRef = 4C1D34AE21B2FD8F009D9BB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1D34B121B2FD8F009D9BB4 /* libxmppTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = libxmppTests.xctest;
+			remoteRef = 4C1D34B021B2FD8F009D9BB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4CCD17DD21A4BF38001D3D29 /* Resources */ = {
@@ -387,6 +475,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C1D34B521B2FDA5009D9BB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libxmpp;
+			targetProxy = 4C1D34B421B2FDA5009D9BB4 /* PBXContainerItemProxy */;
+		};
 		4CCD17F821A4BF38001D3D29 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4CCD17DE21A4BF38001D3D29 /* xmppclient */;
@@ -533,17 +626,16 @@
 		4CCD180B21A4BF38001D3D29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WW5885E694;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				INFOPLIST_FILE = xmppclient/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "libxmpp/util/xmppclient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -553,17 +645,16 @@
 		4CCD180C21A4BF38001D3D29 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WW5885E694;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				INFOPLIST_FILE = xmppclient/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "libxmpp/util/xmppclient-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -8,7 +8,9 @@
 
 import UIKit
 
-class AddDomainTableViewController: UITableViewController, XMPPConnectionObserver {
+import libxmpp
+
+class AddDomainTableViewController: UITableViewController, XMPPConnectionDelegate {
 
     @IBOutlet weak var domainField: UITextField!
     @IBOutlet var cancelButton: UIBarButtonItem!
@@ -37,7 +39,7 @@ class AddDomainTableViewController: UITableViewController, XMPPConnectionObserve
         self.beginVerifying()
 
         self.xmppConnection = XMPPConnection(forDomain: self.domainField.text!, allowInsecure: false)
-        _ = self.xmppConnection.addConnectionObserver(observer: self)
+        self.xmppConnection.connectionDelegate = self
         DispatchQueue.global(qos: .userInitiated).async {
             self.xmppConnection.connect()
         }

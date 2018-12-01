@@ -9,6 +9,8 @@
 import CoreData
 import Foundation
 
+import libxmpp
+
 class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
     var appDelegate: AppDelegate
     var xmppConnections: [XMPPConnection?] = []
