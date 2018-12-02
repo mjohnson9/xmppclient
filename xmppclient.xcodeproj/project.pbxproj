@@ -162,7 +162,6 @@
 			children = (
 				4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */,
 				4CE7CEF021A8483000E26F6C /* .gitignore */,
-				4CCD17F121A4BF38001D3D29 /* Info.plist */,
 				4CCD17E121A4BF38001D3D29 /* Sources */,
 				4CCD17F921A4BF38001D3D29 /* Tests */,
 				4CCD180421A4BF38001D3D29 /* UITests */,
@@ -185,6 +184,7 @@
 		4CCD17E121A4BF38001D3D29 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4CCD17F121A4BF38001D3D29 /* Info.plist */,
 				4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */,
 				4CFBE17821A6E84100D314DB /* XMPPConnectionManager.swift */,
 				4CCD181721A4F640001D3D29 /* storyboards */,
@@ -632,7 +632,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WW5885E694;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -651,7 +651,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WW5885E694;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = computer.johnson.xmppclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
