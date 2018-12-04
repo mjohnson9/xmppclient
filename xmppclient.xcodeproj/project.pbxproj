@@ -11,13 +11,13 @@
 		4C0D09B621A5802A00A78E57 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */; };
 		4C1D34B221B2FDA5009D9BB4 /* libxmpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */; };
 		4C1D34B321B2FDA5009D9BB4 /* libxmpp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4C331EB121B54C0E007FB42C /* Add Domain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C331EB021B54C0E007FB42C /* Add Domain.storyboard */; };
 		4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */; };
 		4CCD17E321A4BF38001D3D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */; };
 		4CCD17E521A4BF38001D3D29 /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E421A4BF38001D3D29 /* ContactListViewController.swift */; };
 		4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17E621A4BF38001D3D29 /* Main.storyboard */; };
 		4CCD17EB21A4BF38001D3D29 /* xmppclient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E921A4BF38001D3D29 /* xmppclient.xcdatamodeld */; };
 		4CCD17ED21A4BF38001D3D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */; };
-		4CCD17F021A4BF38001D3D29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */; };
 		4CCD17FB21A4BF38001D3D29 /* xmppclientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17FA21A4BF38001D3D29 /* xmppclientTests.swift */; };
 		4CCD180621A4BF38001D3D29 /* xmppclientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD180521A4BF38001D3D29 /* xmppclientUITests.swift */; };
 		4CCD181421A4F01B001D3D29 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD181321A4F01B001D3D29 /* ContactTableViewCell.swift */; };
@@ -83,6 +83,7 @@
 		4C0D09B521A5802A00A78E57 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4C1D345221B2E941009D9BB4 /* xmppclient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = xmppclient.entitlements; sourceTree = "<group>"; };
 		4C1D34A921B2FD8F009D9BB4 /* libxmpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libxmpp.xcodeproj; path = ../libxmpp/libxmpp.xcodeproj; sourceTree = "<group>"; };
+		4C331EB021B54C0E007FB42C /* Add Domain.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Add Domain.storyboard"; sourceTree = "<group>"; };
 		4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C5AFC5421A9F87700C78A04 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		4CCD17DF21A4BF38001D3D29 /* xmppclient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmppclient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,7 +92,6 @@
 		4CCD17E721A4BF38001D3D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4CCD17EA21A4BF38001D3D29 /* xmppclient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xmppclient.xcdatamodel; sourceTree = "<group>"; };
 		4CCD17EC21A4BF38001D3D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4CCD17EF21A4BF38001D3D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4CCD17F121A4BF38001D3D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CCD17F621A4BF38001D3D29 /* xmppclientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppclientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCD17FA21A4BF38001D3D29 /* xmppclientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xmppclientTests.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				4CCD17E621A4BF38001D3D29 /* Main.storyboard */,
-				4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */,
+				4C331EB021B54C0E007FB42C /* Add Domain.storyboard */,
 			);
 			path = storyboards;
 			sourceTree = "<group>";
@@ -398,7 +398,7 @@
 			files = (
 				4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */,
 				4CE7CEF121A8483000E26F6C /* .gitignore in Resources */,
-				4CCD17F021A4BF38001D3D29 /* LaunchScreen.storyboard in Resources */,
+				4C331EB121B54C0E007FB42C /* Add Domain.storyboard in Resources */,
 				4CCD17ED21A4BF38001D3D29 /* Assets.xcassets in Resources */,
 				4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */,
 			);
@@ -499,14 +499,6 @@
 				4CCD17E721A4BF38001D3D29 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4CCD17EE21A4BF38001D3D29 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CCD17EF21A4BF38001D3D29 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
