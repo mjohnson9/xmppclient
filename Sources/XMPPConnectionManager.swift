@@ -12,6 +12,7 @@ import Foundation
 import libxmpp
 
 class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
+	static let dispatchQueue: DispatchQueue = DispatchQueue(label: "computer.johnson.xmppclient.XMPPConnectionManager", qos: .utility, attributes: .concurrent)
     // swiftlint:disable:next weak_delegate
     var appDelegate: AppDelegate
     var xmppConnections: [XMPPConnection?] = []
@@ -57,7 +58,7 @@ class XMPPConnectionManager: NSObject, NSFetchedResultsControllerDelegate {
 
         let connection = XMPPConnection(forDomain: data.domain!, allowInsecure: false, isProbe: false)
         self.xmppConnections[indexPath.row] = connection
-        DispatchQueue.global(qos: .background).async {
+		XMPPConnectionManager.dispatchQueue.async {
             connection.connect()
         }
     }
