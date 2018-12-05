@@ -13,6 +13,7 @@
 		4C1D34B321B2FDA5009D9BB4 /* libxmpp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D34AF21B2FD8F009D9BB4 /* libxmpp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C331EB121B54C0E007FB42C /* Add Domain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C331EB021B54C0E007FB42C /* Add Domain.storyboard */; };
 		4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */; };
+		4CC9CDBB21B7E97D00E6D6C6 /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4CC9CDBA21B7E97D00E6D6C6 /* .travis.yml */; };
 		4CCD17E321A4BF38001D3D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */; };
 		4CCD17E521A4BF38001D3D29 /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD17E421A4BF38001D3D29 /* ContactListViewController.swift */; };
 		4CCD17E821A4BF38001D3D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD17E621A4BF38001D3D29 /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 		4C331EB021B54C0E007FB42C /* Add Domain.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Add Domain.storyboard"; sourceTree = "<group>"; };
 		4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C5AFC5421A9F87700C78A04 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		4CC9CDBA21B7E97D00E6D6C6 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		4CCD17DF21A4BF38001D3D29 /* xmppclient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmppclient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCD17E221A4BF38001D3D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CCD17E421A4BF38001D3D29 /* ContactListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		4CCD17D621A4BF38001D3D29 = {
 			isa = PBXGroup;
 			children = (
+				4CC9CDBA21B7E97D00E6D6C6 /* .travis.yml */,
 				4C3ED57621B2E1DD007CB7AD /* .swiftlint.yml */,
 				4CE7CEF021A8483000E26F6C /* .gitignore */,
 				4CCD17E121A4BF38001D3D29 /* Sources */,
@@ -396,6 +399,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CC9CDBB21B7E97D00E6D6C6 /* .travis.yml in Resources */,
 				4C3ED57721B2E1DD007CB7AD /* .swiftlint.yml in Resources */,
 				4CE7CEF121A8483000E26F6C /* .gitignore in Resources */,
 				4C331EB121B54C0E007FB42C /* Add Domain.storyboard in Resources */,

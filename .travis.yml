@@ -1,0 +1,9 @@
+language: swift
+osx_image: xcode10.1
+xcode_project: xmppclient.xcodeproj
+xcode_scheme: xmppclient
+xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone XS
+
+script:
+- swiftlint --strict --quiet
+- set -o pipefail && xcodebuild -project "$TRAVIS_XCODE_PROJECT" -scheme "$TRAVIS_XCODE_SCHEME" -destination "$TRAVIS_XCODE_DESTINATION" build test | xcpretty
